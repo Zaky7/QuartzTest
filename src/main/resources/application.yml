@@ -1,0 +1,33 @@
+server:
+  port: 38089
+  http2:
+    enabled: true
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 10240
+  shutdown: graceful
+
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 45s
+  datasource:
+    url: jdbc:postgresql://localhost/quartztest?stringtype=unspecified&reWriteBatchedInserts=true
+  quartz:
+    startup-delay: 5s
+    wait-for-jobs-to-complete-on-shutdown: true
+    overwrite-existing-jobs: true
+    job-store-type: JDBC
+    jdbc:
+      initialize-schema: ALWAYS
+    properties:
+      org.quartz.scheduler.instanceId: AUTO
+      org.quartz.scheduler.skipUpdateCheck: true
+      org.quartz.jobStore.isClustered: true
+      org.quartz.jobStore.useProperties: false
+      org.quartz.threadPool.threadCount: 5
+      org.quartz.jobStore.driverDelegateClass: 'org.quartz.impl.jdbcjobstore.PostgreSQLDelegate'
+
+logging:
+  level:
+    org.quartz: DEBUG
